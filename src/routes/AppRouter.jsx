@@ -1,6 +1,8 @@
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Loginpage from '../pages/Loginpage';
+import Loginpage from '../pages/Loginpage.jsx';
+import Pagenotfound from '../components/page not found/Pagenotfound.jsx';
+import Forgetpasswordpage from '../pages/forget password/Forgetpasswordpage.jsx';
 
 
 
@@ -12,7 +14,9 @@ const Approuter = () => {
                 {/* <Route element={<PublicRoute />}>
                     <Route path="/forgotpassword" element={<ForgotPassword />} />
                     </Route> */}
+                {/* <Route path="/" element={<LoginPage />} /> */}
                 <Route path="/" element={<Loginpage />} />
+                <Route path="/forgetpassword" element={<Forgetpasswordpage />} />
 
                 {/* Protected routes (requires login) */}
                 {/* <Route element={<ProtectedRoute />}>
@@ -23,7 +27,7 @@ const Approuter = () => {
                 </Route> */}
 
                 {/* 404 Page */}
-                {/* <Route path="*" element={<Pagenotfound />} /> */}
+                <Route path="*" element={<Pagenotfound />} />
             </Routes>
         </Suspense>
     );
