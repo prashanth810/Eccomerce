@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { MdOutlineEmail } from "react-icons/md";
 import { MdOutlineLock } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { VscEyeClosed } from "react-icons/vsc";
 import { VscEye } from "react-icons/vsc";
 import { handleregisteruser, handleloginuser } from '../redux/Slices/AuthSlice.js';
@@ -12,15 +12,17 @@ import { Toasterror, Toastsuccess } from '../components/toast notifications/AllT
 
 const Loginpage = () => {
     const [state, setState] = useState("login");
+    const [isAdmin, setIsAdmin] = useState(false);
     const [showpass, setShowpass] = useState(false);
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
         email: "",
         password: "",
-        role: "admin",
+        role: "",
     });
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { login, regiter } = useSelector((state) => state.auth);
 
@@ -30,39 +32,28 @@ const Loginpage = () => {
         setFormData((prev) => ({ ...prev, [name]: value }));
     }
 
-    // const handlelogin = async (e) => {
-    //     e.preventDefault();
-    //     const endpoint = currentstate === "Login" ? "/api/user/login" : "/api/user/register";
+    const handleToggle = () => {
+        const newRole = !isAdmin ? "admin" : "user";
+        setIsAdmin(!isAdmin);
+        setFormData(prev => ({ ...prev, role: newRole }));
+        console.log(newRole);
+    };
 
-    //     try {
-    //         const response = await axios.post(`${url}${endpoint}`, data);
 
-    //         if (response.data.success) {
-    //             if (currentstate === "Login") {
-    //                 setTooken(response.data.token);
-    //                 localStorage.setItem("token", response.data.token);
-    //                 localStorage.setItem("username", response.data.data.name);
-    //                 localStorage.setItem("userId", response.data.data.userId);
-    //                 setLogin(false);
-    //             } else {
-    //                 setCurrentstate("Login");
-    //             }
-    //         } else {
-    //             alert(response.data.message);
-    //         }
-    //     } catch (error) {
-    //         console.error("Network Error Details:", error);
-    //     }
-    // };
-
-    const data = {
-        ...formData,
-        name: formData.firstName + formData.lastName
+    const registerdata = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        name: formData.firstName + " " + formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role || "user"
     }
 
     const logindata = {
-        ...formData,
-    }
+        email: formData.email,
+        password: formData.password,
+        role: formData.role || "user"
+    };
 
     const handlelogin = async (e) => {
         e.preventDefault();
@@ -72,14 +63,17 @@ const Loginpage = () => {
                 toast.error(<Toasterror error={"Please fill in all fields"} />)
                 return;
             }
+
             try {
                 const result = await dispatch(handleloginuser(logindata)).unwrap();
+                toast.error(<Toasterror error={result.data.message} />);
                 if (result?.token) {
                     toast.success(<Toastsuccess success={"Login successful!"} />);
                     localStorage.setItem("token", result.token);
+                    navigate('/homepage')
                 }
             } catch (error) {
-                toast.error(<Toasterror error={error || "Login failed"} />);
+                toast.error(<Toasterror error={error.message} />);
             }
         } else {
             if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
@@ -87,16 +81,17 @@ const Loginpage = () => {
                 return;
             }
             try {
-                const result = await dispatch(handleregisteruser(data)).unwrap();
+                const result = await dispatch(handleregisteruser(registerdata)).unwrap();
                 if (result?.token) {
-                    toast.success(<Toastsuccess error={"Registration successful! Please login."} />);
+                    toast.success(<Toastsuccess success={"Registration successful! Please login."} />);
                     setState("login");
                 }
             } catch (error) {
-                toast.error(<Toasterror error={error || "Registration failed"} />);
+                toast.error(<Toasterror error={error?.response?.data?.message || error.message} />);
             }
         }
     };
+
 
 
     return (
@@ -198,6 +193,30 @@ const Loginpage = () => {
                                 {showpass ? <VscEye /> : <VscEyeClosed />}
                             </span>
                         </div>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                        <span className={`text-sm font-medium ${!isAdmin ? "text-gray-900" : "text-gray-400"}`}>User</span>
+
+                        <label className="inline-flex items-center cursor-pointer">
+                            <input
+                                type="checkbox"
+                                className="sr-only peer"
+                                checked={isAdmin}
+                                onChange={handleToggle}
+                            />
+                            <div className="relative w-8 h-4 bg-gray-200 rounded-full peer dark:bg-gray-700
+      peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800
+      peer-checked:bg-green-600 dark:peer-checked:bg-green-600
+      peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full
+      after:content-[''] after:absolute after:top-0.5 after:left-[2px] 
+      after:bg-white after:border-gray-300 after:border after:rounded-full 
+      after:h-3 after:w-3 after:transition-all dark:border-gray-600 peer-checked:after:border-white">
+                            </div>
+                        </label>
+
+
+                        <span className={`text-sm font-medium ${isAdmin ? "text-gray-900" : "text-gray-400"}`}>Admin</span>
                     </div>
 
                     {/* Sign In Button */}

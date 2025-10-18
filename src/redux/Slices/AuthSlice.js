@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { registerapi, loginapi, forgetsendop, forgetverifyotp } from '../../service/apis';
+import { registerapi, loginapi, forgetsendop, forgetverifyotp, forgetpasswordupdate } from '../../service/apis';
 
 // register slice 
 export const handleregisteruser = createAsyncThunk("auth/register", async (data, thunkAPI) => {
@@ -20,6 +20,7 @@ export const handleloginuser = createAsyncThunk('auth/login', async (data, thunk
         return response.data;
     }
     catch (error) {
+        console.log(error, 'rrrrrrrrrrrrrrrrr')
         return thunkAPI.rejectWithValue(error.message);
     }
 })
@@ -47,6 +48,19 @@ export const verifyotp = createAsyncThunk('auth/verifyotp', async (data, thunkAP
     }
 })
 
+// forget update password
+export const updateforgetpassword = createAsyncThunk("auth/forgetedpassword", async (data, thunkAPI) => {
+    try {
+        const response = await forgetpasswordupdate(data);
+        return response.data;
+    }
+    catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
+    }
+})
+
+
+
 
 const initialState = {
     register: {
@@ -68,7 +82,11 @@ const initialState = {
         verifyloading: false,
         verifyerror: null,
         verifysuccess: null,
+        updateLoading: false,
+        updateError: null,
+        updateSuccess: null,
     },
+
 };
 
 
@@ -143,6 +161,21 @@ const AuthSlice = createSlice({
             .addCase(verifyotp.rejected, (state, action) => {
                 state.forget.verifyloading = false;
                 state.forget.verifyerror = action.payload || "OTP verification failed";
+            })
+
+            // update forget passowrd 
+            .addCase(updateforgetpassword.pending, (state) => {
+                state.forget.updateLoading = true;
+                state.forget.updateError = null;
+                state.forget.updateSuccess = null;
+            })
+            .addCase(updateforgetpassword.fulfilled, (state, action) => {
+                state.forget.updateLoading = false;
+                state.forget.updateSuccess = action.payload?.message || "Password updated successfully";
+            })
+            .addCase(updateforgetpassword.rejected, (state, action) => {
+                state.forget.updateLoading = false;
+                state.forget.updateError = action.payload || "Failed to update password";
             })
     }
 })

@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Loginpage from '../pages/Loginpage.jsx';
 import Pagenotfound from '../components/page not found/Pagenotfound.jsx';
 import Forgetpasswordpage from '../pages/forget password/Forgetpasswordpage.jsx';
+import HomePage from '../pages/home page/HomePage.jsx';
 
 
 
@@ -25,6 +26,8 @@ const Approuter = () => {
  
                     </Route>
                 </Route> */}
+
+                <Route path='/homepage' element={<HomePage />} />
 
                 {/* 404 Page */}
                 <Route path="*" element={<Pagenotfound />} />

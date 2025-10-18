@@ -19,4 +19,9 @@ export const forgetsendop = (data) => {
 // forget password sent otp 
 export const forgetverifyotp = (data) => {
     return httpClient.post(`/verify-otp`, data);
-} 
+}
+
+// update password or forget password 
+export const forgetpasswordupdate = (data) => {
+    return httpClient.put(`/update-forgot-password`, data);
+}
