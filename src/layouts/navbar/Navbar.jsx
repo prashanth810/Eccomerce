@@ -14,7 +14,7 @@ const Navbar = () => {
     return (
         <header className="w-full bg-white py-4">
             {/* fixed top-0 left-0 z-50 */}
-            <nav className="w-[90%] mx-auto flex items-center justify-between py-3">
+            <nav className="xl:w-[90%] mx-auto flex items-center justify-between py-3">
                 {/* Logo Section */}
                 <div className='flex items-center gap-x-10'>
                     <div className="flex items-center">

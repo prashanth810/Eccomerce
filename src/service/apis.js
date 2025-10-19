@@ -27,3 +27,9 @@ export const forgetverifyotp = (data) => {
 export const forgetpasswordupdate = (data) => {
     return httpClient.put(`/update-forgot-password`, data);
 }
+
+// ===========================================================================
+// products data 
+export const fetchallproducts = () => {
+    return httpClient.get("/product/list");
+}

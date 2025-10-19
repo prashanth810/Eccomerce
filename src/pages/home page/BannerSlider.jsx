@@ -59,7 +59,7 @@ const BannerSlider = () => {
                     <img
                         src={image}
                         alt="Banner Visual"
-                        className="w-full max-w-md object-contain"
+                        className="w-full max-w-md object-contain absolute right-0 bottom-0"
                         style={{ marginBottom: '-2rem' }}
                     />
                 </div>
