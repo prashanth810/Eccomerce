@@ -9,6 +9,7 @@ import { VscEyeClosed } from "react-icons/vsc";
 import { VscEye } from "react-icons/vsc";
 import { handleregisteruser, handleloginuser } from '../redux/Slices/AuthSlice.js';
 import { Toasterror, Toastsuccess } from '../components/toast notifications/AllToastnotifications.jsx';
+import { FcGoogle } from "react-icons/fc";
 
 const Loginpage = () => {
     const [state, setState] = useState("login");
@@ -97,16 +98,21 @@ const Loginpage = () => {
     return (
         <section className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-bl from-[#ecfff7] via-[#e3f6ed] to-[#eafaf3] relative">
             {/* Logo & Title */}
-            <div className="flex flex-col items-center mb-2">
+            {/* <div className="flex flex-col items-center mb-2">
                 <div className="flex items-center mb-2">
                     <span className="w-4 h-4 rounded-full bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-500 mr-2"></span>
                     <span className="text-2xl font-semibold text-gray-800"> Ecommerce </span>
                 </div>
                 <h2 className="text-xl md:text-sm font-bold text-gray-400">Good to see you again</h2>
-            </div>
+            </div> */}
 
             {/* Login Card */}
             <div className="relative flex flex-col w-full max-w-md shadow-xl bg-white rounded-lg px-8 py-10 z-10">
+                <div className='flex flex-col items-center pb-7'>
+                    <p className='text-2xl font-semibold'> {state === "login" ? ("Login") : ("Register")} </p>
+                    <p className='text-sm text-gray-500'> {state === "login" ? ("Login") : ("Register")} and grouth your bussiness in a minimalist way  </p>
+                </div>
+
                 <form className="flex flex-col gap-y-4" onSubmit={handlelogin}>
 
                     {/* first lastName & last name */}
@@ -220,23 +226,36 @@ const Loginpage = () => {
                     </div>
 
                     {/* Sign In Button */}
-                    <button type="submit" className="w-full mt-4 bg-green-500 hover:bg-green-600 transition-all text-white font-bold py-2 shadow outline-none" >
+                    <button type="submit" className="w-full mt-4 bg-green-500 hover:bg-green-600 transition-all text-white py-2 shadow outline-none cursor-pointer" >
                         {state === "login" ? "Login" : "Register"}
                     </button>
 
                 </form>
+
+                <div className="flex items-center justify-center my-6 px-14">
+                    <div className="flex-1 h-px bg-gray-300"></div>
+                    <span className="px-3 text-gray-500 text-sm">Or {state === "login" ? "Login" : "Register "} in with</span>
+                    <div className="flex-1 h-px bg-gray-300"></div>
+                </div>
+
+                <button className='flex w-full items-center border border-[#bbbaba] justify-center gap-2 py-2 cursor-pointer focus-within:ring-0 focus-within:ring-transparent focus-within:border-green-400 transition' onClick={() => window.open("http://localhost:8020/api/auth/google", "_self")}>
+                    <FcGoogle className='text-xl' /> <p className='text-gray-500 hover:text-green-500 duration-300 transition'> {state === "login" ? "Login" : "Register"} with Google </p>
+                </button>
+
                 <div className="flex justify-between items-center mt-4 text-sm">
                     {state === "login" ? (
                         <button className='hover:text-blue-700 duration-300 transition cursor-pointer' onClick={() => setState("Register")}> Don't have an account? </button>
                     ) : (
                         <button className='hover:text-blue-700 duration-300 transition cursor-pointer' onClick={() => setState("login")}>   Already have account ! </button>
                     )}
-                    <NavLink to={'/forgetpassword'} className="hover:text-blue-700 duration-300 transition cursor-pointer">Forgot password?</NavLink>
+                    {state === "login" ? (
+                        <NavLink to={'/forgetpassword'} className="hover:text-blue-700 duration-300 transition cursor-pointer">Forgot password?</NavLink>
+                    ) : (null)}
                 </div>
             </div>
 
             {/* Bottom Tools */}
-            <div className="flex gap-4 mt-10 z-10">
+            {/* <div className="flex gap-4 mt-10 z-10">
                 <span className="flex items-center text-gray-700 text-sm">
                     <span className="w-2 h-2 mr-2 bg-red-400 rounded-full"></span> KWFinder
                 </span>
@@ -252,7 +271,7 @@ const Loginpage = () => {
                 <span className="flex items-center text-gray-700 text-sm">
                     <span className="w-2 h-2 mr-2 bg-pink-400 rounded-full"></span> SiteProfiler
                 </span>
-            </div>
+            </div> */}
 
             {/* Accent Gradients */}
             {/* <span className="absolute left-8 bottom-36 w-12 h-12 bg-gradient-to-br from-orange-400 to-pink-400 rounded-full opacity-60 blur-2xl"></span>
