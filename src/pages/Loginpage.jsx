@@ -67,11 +67,12 @@ const Loginpage = () => {
 
             try {
                 const result = await dispatch(handleloginuser(logindata)).unwrap();
-                toast.error(<Toasterror error={result.data.message} />);
-                if (result?.token) {
+                if (result?.success) {
                     toast.success(<Toastsuccess success={"Login successful!"} />);
+                    navigate('/homepage');
+                }
+                if (result?.token) {
                     localStorage.setItem("token", result.token);
-                    navigate('/homepage')
                 }
             } catch (error) {
                 toast.error(<Toasterror error={error.message} />);

@@ -7,7 +7,9 @@ export const registerapi = (data) => {
 
 // login 
 export const loginapi = (data) => {
-    return httpClient.post(`/login`, data);
+    return httpClient.post(`/login`, data, {
+        withCredentials: true, // ✅ important: allow cookies
+    });
 }
 
 
