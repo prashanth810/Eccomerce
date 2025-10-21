@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const httpClient = axios.create({
-    // baseURL: "https://ecommerce-practise-xb13.onrender.com/api/auth",
-    baseURL: 'http://localhost:8020/api/auth',
+    baseURL: "https://ecommerce-practise-xb13.onrender.com/api/auth",
+    // baseURL: 'http://localhost:8020/api/auth',
     headers: {
         "Content-Type": "application/json",
     },
