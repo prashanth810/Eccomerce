@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchallproducts } from "../../service/apis";
+import { fetchallproducts, handlegetsingleproduct } from "../../service/apis";
 
 
 // get all products 
@@ -14,12 +14,28 @@ export const getallproducts = createAsyncThunk("product/getallproducts", async (
 })
 
 
+///  fetch single product
+export const handlefetchsingleproduct = createAsyncThunk("product/singleprod", async (id, thunkAPI) => {
+    try {
+        const response = await handlegetsingleproduct(id);
+        return response.data.data;
+    }
+    catch (error) {
+        return thunkAPI.rejectWithValue(error.message || "Failed to fetch product by Id !");
+    }
+})
+
 const initialState = {
     product: {
         productloading: false,
         productdata: [],
         producterror: null,
-    }
+    },
+    singleprod: {
+        singleproduct: {},
+        singleproductloading: false,
+        singleproducterror: null,
+    },
 }
 const ProductSlice = createSlice({
     name: "products",
@@ -27,6 +43,7 @@ const ProductSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            // get product list
             .addCase(getallproducts.pending, (state) => {
                 state.product.productloading = true;
                 state.product.producterror = null;
@@ -39,6 +56,20 @@ const ProductSlice = createSlice({
             .addCase(getallproducts.rejected, (state, action) => {
                 state.product.productloading = false;
                 state.product.producterror = action.payload;
+            })
+
+            // get single product 
+            .addCase(handlefetchsingleproduct.pending, (state) => {
+                state.singleprod.singleproductloading = true;
+                state.singleprod.singleproducterror = null;
+            })
+            .addCase(handlefetchsingleproduct.fulfilled, (state, action) => {
+                state.singleprod.singleproductloading = false;
+                state.singleprod.singleproduct = action.payload;
+            })
+            .addCase(handlefetchsingleproduct.rejected, (state, action) => {
+                state.singleprod.singleproductloading = false;
+                state.singleprod.singleproducterror = action.payload;
             })
     }
 })

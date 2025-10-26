@@ -33,3 +33,9 @@ export const forgetpasswordupdate = (data) => {
 export const fetchallproducts = () => {
     return httpClient.get("/product/list");
 }
+
+
+// get sinlge product 
+export const handlegetsingleproduct = (id) => {
+    return httpClient.get(`/product/list/${id}`);
+}

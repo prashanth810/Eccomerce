@@ -4,6 +4,7 @@ import Loginpage from '../pages/Loginpage.jsx';
 import Pagenotfound from '../components/page not found/Pagenotfound.jsx';
 import Forgetpasswordpage from '../pages/forget password/Forgetpasswordpage.jsx';
 import HomePage from '../pages/home page/HomePage.jsx';
+import Singleproduct from '../pages/product details/Singleproduct.jsx';
 
 
 
@@ -16,7 +17,7 @@ const Approuter = () => {
                     <Route path="/forgotpassword" element={<ForgotPassword />} />
                     </Route> */}
                 {/* <Route path="/" element={<LoginPage />} /> */}
-                <Route path="/" element={<Loginpage />} />
+                <Route path="/login" element={<Loginpage />} />
                 <Route path="/forgetpassword" element={<Forgetpasswordpage />} />
 
                 {/* Protected routes (requires login) */}
@@ -27,7 +28,9 @@ const Approuter = () => {
                     </Route>
                 </Route> */}
 
-                <Route path='/homepage' element={<HomePage />} />
+                <Route path='/' element={<HomePage />} />
+
+                <Route path="/product/:id" element={<Singleproduct />} />
 
                 {/* 404 Page */}
                 <Route path="*" element={<Pagenotfound />} />

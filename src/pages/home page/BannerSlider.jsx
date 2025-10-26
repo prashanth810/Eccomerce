@@ -28,7 +28,7 @@ const BannerSlider = () => {
 
     return (
         <section className="px-1">
-            <div className="w-full rounded-3xl shadow px-8 py-24 flex flex-col md:flex-row items-center justify-between relative overflow-hidden" style={{ background: bgColor }}>
+            <div className="w-[95%] mx-auto rounded-3xl shadow px-8 py-24 flex flex-col md:flex-row items-center justify-between relative overflow-hidden" style={{ background: bgColor }}>
                 {/* LEFT: TEXT SECTION */}
                 <div className="flex-1 max-w-xl z-10">
                     <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">

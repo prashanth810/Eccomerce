@@ -81,19 +81,24 @@ const Forgetpasswordpage = () => {
 
     const handleverifyotp = async (e) => {
         e.preventDefault();
-        const otpvalue = otp.join("");
+        try {
+            const otpvalue = otp.join("");
 
-        if (otpvalue.length < 6) {
-            return toast.error(<Toasterror error={"please enter full otp !"} />);
+            if (otpvalue.length < 6) {
+                return toast.error(<Toasterror error={"please enter full otp !"} />);
+            }
+
+            const res = await dispatch(verifyotp({ email: formData.email, otp: otpvalue }));
+
+            if (res.meta.requestStatus === "fulfilled") {
+                toast.success("OTP verified successfully!");
+                setSteap(3);
+            } else {
+                toast.error(<Toasterror error={res.error.message} />);
+            }
         }
-
-        const res = await dispatch(verifyotp({ email: formData.email, otp: otpvalue }));
-
-        if (res.meta.requestStatus === "fulfilled") {
-            toast.success("OTP verified successfully!");
-            setSteap(3);
-        } else {
-            toast.error(<Toasterror error={res.payload || "Invalid OTP"} />);
+        catch (error) {
+            toast.error(<Toasterror error={error.message} />, { id: "error-toast" })
         }
     };
 
@@ -142,7 +147,7 @@ const Forgetpasswordpage = () => {
 
 
                 {steap === 2 && (
-                    <OtpVerification handleverifyotp={handleverifyotp} otp={otp} inputRef={inputRef} handleOtpchange={handleOtpchange} handlekeyDown={handlekeyDown} handlePaste={handlePaste} />
+                    <OtpVerification handleverifyotp={handleverifyotp} otp={otp} inputRef={inputRef} handleOtpchange={handleOtpchange} handlekeyDown={handlekeyDown} handlePaste={handlePaste} handlesentotp={handlesentotp} setSteap={setSteap} />
 
                 )}
 

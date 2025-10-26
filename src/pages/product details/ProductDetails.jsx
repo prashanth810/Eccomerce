@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getallproducts } from '../../redux/Slices/ProductSlice';
+import { NavLink } from 'react-router-dom'
 
 
 const ProductDetails = () => {
@@ -18,14 +19,14 @@ const ProductDetails = () => {
             <div className='grid grid-cols-5 gap-3'>
                 {productdata?.slice(0, 5).map((product, i) => {
                     return (
-                        <div key={i || product._id} className='border border-[#ccc]'>
+                        <NavLink to={`/product/${product._id}`} key={i || product._id} className='border border-[#ccc]'>
                             <img
                                 src={product.coverProfile}
                                 alt={product.title}
                                 className="w-full h-40 object-cover"
                             />
                             <p className='py-2 px-3'> {product.title} </p>
-                        </div>
+                        </NavLink>
                     )
                 })}
             </div>
